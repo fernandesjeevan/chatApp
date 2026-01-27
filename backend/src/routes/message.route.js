@@ -1,9 +1,9 @@
-import express from "express"
+import express from "express";
 
 const router = express.Router();
 
-router.get("/send",(req,res)=>{
-    res.send("messages endpoint");
+router.get("/send", (req, res) => {
+  res.send("messages endpoint");
 });
 
 export default router;
