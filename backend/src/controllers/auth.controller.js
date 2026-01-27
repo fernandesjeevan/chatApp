@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../lib/utils.js";
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
@@ -23,7 +22,7 @@ export const signup = async (req, res) => {
         .json({ message: "this user already exists please login" });
     }
 
-    const salt = await bcrypt.genSalt(10);
+    const salt = bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     
     const newUser = new User({
@@ -37,12 +36,11 @@ export const signup = async (req, res) => {
         res.status(201).json({
             _id: newUser._id,
             fullName : newUser.fullName,
-            email:newUser.email,
             profilePic: newUser.profilePic
         })
     }
   } catch (error) {
-    console.error("something is erroneus",error);
+    console.error("something is erroneus");
     res.status(500).json({message: "Aww Snap! something went wrong"})
   }
 };
