@@ -15,7 +15,7 @@ app.use(express.json());
 app.use("/api/auth",authRoutes)
 app.use("/message", messageRoutes)
 //make ready for deployment
-if(process.env.NODE_ENV ==="development"){
+if(process.env.NODE_ENV ==="production"){
    
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
     app.get("*",(req,res)=>{
