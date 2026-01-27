@@ -1,7 +1,11 @@
 import jwt from "jsonwebtoken";
 
 export const generateToken = (userId, res) => {
-  const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET, {
+  const {JWT_SECRET} = process.env;
+  if(!JWT_SECRET){
+    throw new Error("JWT_SECRET is not configured");
+  }  
+  const token = jwt.sign({ userId: userId }, JWT_SECRET, {
     expiresIn: "7d",
   });
   res.cookie("jwt", token, {
@@ -9,6 +13,6 @@ export const generateToken = (userId, res) => {
     httpOnly: true, //prevent xss attacks: cross-site scripting,
     sameSite: "strict", //csrf attacks
     secure: process.env.NODE_ENV == "development" ? false : true,
-  });
-  return token;
+  }); 
+  return token; 
 };
