@@ -5,7 +5,7 @@ dotenv.config();
 
 export const connectDB = async () =>{
     try{
-        console.log("why",process.env.MONGO_URI)
+      //   console.log("why",process.env.MONGO_URI)
         const {MONGO_URI}   = process.env;
         if(!MONGO_URI) throw new Error("Mongo Uri is not set");
        const conn = await mongoose.connect(process.env.MONGO_URI);
