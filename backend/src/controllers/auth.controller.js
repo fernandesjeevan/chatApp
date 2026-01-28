@@ -67,7 +67,7 @@ export const signup = async (req, res) => {
 
 
 export const login = async (req,res) =>{
-  console.log("login checkpoint",req,res)
+  //console.log("login checkpoint",req,res)
   const {email,password} = req.body;
   if(!email||! password){
     return res.status(400).json({message:"Email and password are required"})
@@ -101,11 +101,13 @@ export const logout = async (_,res) =>{
 
 export const updateProfile = async(req,res) => {
   try{
+    console.log(req.body, "thsi is body");
     const {profilePic} = req.body;
     if(!profilePic) return res.status(400).json({message: "Profile pic is required"});
     const userId = req.user._id;
     const uploadResponse = await cloudinary.uploader.upload(profilePic);
-    const updatedUser = await User.findbyIdAndUpdate(userId, {profilePic: uploadResponse.secure},
+    console.log(uploadResponse, "this is upload resposne")
+    const updatedUser = await User.findByIdAndUpdate(userId, {profilePic: uploadResponse.secure_url},
       {
         new:true
 
