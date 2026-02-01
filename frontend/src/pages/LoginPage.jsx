@@ -19,6 +19,7 @@ function LoginPage() {
   const { login, isLoggingIn } = useAuthStore();
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     console.log(formData);
     login(formData);
   };
