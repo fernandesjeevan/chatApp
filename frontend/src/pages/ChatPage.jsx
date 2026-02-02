@@ -4,6 +4,7 @@ import { useChatStore } from '../store/useChatStore';
 import BorderAnimatedContainer from '../components/BorderAnimatedContainer';
 import ActiveTabSwitch from '../components/ActiveTabSwitch';
 import ChatsList from '../components/ChatsList';
+import ContactList from '../components/ContactList.jsx'
 import ChatContainer from '../components/ChatContainer';
 import NoConversationPlaceholder from '../components/NoConversationPlaceholder';
 import ProfileHeader from "../components/ProfileHeader.jsx"
