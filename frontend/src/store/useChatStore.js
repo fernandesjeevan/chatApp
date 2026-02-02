@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import { axiosInstance } from "../lib/axios";
-import toast, { Toaster } from "react-hot-toast"
+
 export const useChatStore = create((set,get)=>({
     allContacts: [],
     chats: [],
@@ -22,7 +22,7 @@ export const useChatStore = create((set,get)=>({
     getAllContacts: async() =>{
         set({isUsersLoading:true});
         try{
-            const res = await axiosInstance.get("/messages/contacts");
+            const res = await axiosInstance.get("/message/contacts");
             set({allContacts:res.data});
         }catch(error){
             toast.error(error.response.data.message);
@@ -36,10 +36,7 @@ export const useChatStore = create((set,get)=>({
             const res = await axiosInstance.get("/messages/chats");
             set({chats:res.data});
         }catch(error){
-            toast.error(error.response.data.message);
-
-        }finally{
-            set({isUsersLoading:false})
+            toast.error(error.respon)
         }
     }
 
