@@ -12,8 +12,7 @@
 
     if(isUsersLoading) return <UsersLoadingSkeleton/>
     if(allContacts.length===0) return <NoChatsFound/>
-    console.log(allContacts,"this is allContacts") 
-    console.log('we came here')
+
     return (
         <>
         {allContacts.map(contact=>(
