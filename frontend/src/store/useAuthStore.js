@@ -1,14 +1,18 @@
 import {create} from 'zustand';
 import {axiosInstance} from "../lib/axios.js"
 import toast, { Toaster } from "react-hot-toast"
+import {io} from "socket.io-client";
 import axios from 'axios';
-export const useAuthStore = create((set)=>({
+const BASE_URL = import.meta.env.MODE ==="development"? "http://localhost:3000":"/"
+export const useAuthStore = create((set,get)=>({
     authUser: null,
     isCheckingAuth:true,
     isSigningUp:false,
     isLoggingIn:false,
     isLoggingOut:false,
     isUpdatingProfile:false,
+    socket: null,
+    onlineUsers: [],
     checkAuth: async()=>{
         try{
             const res = await axiosInstance.get("/auth/check") 
@@ -63,7 +67,7 @@ export const useAuthStore = create((set)=>({
         set({isUpdatingProfile:true});
         try{
             const res = await axiosInstance.put("/auth/update-profile",data)
-            console.log(res.data, "this is response after profile pic uploaded")
+           
             set({authUser:res.data});
             toast.success("Profile updated successfully");
 
@@ -73,5 +77,24 @@ export const useAuthStore = create((set)=>({
         }finally{
             set({isUpdatingProfile:false})
         }
+    },
+    connectSocket: () =>{
+        const {authUser} = get()
+        if(!authUser|| get().socket?.connected) return;
+        const socket = io(BASE_URL, {
+            withCredentials:true //this ensures cookies are sent with the connection
+        })
+        socket.connect()
+        set({socket:socket})
+
+        // listen for online users event
+
+        socket.on("getOnlineUsers",(userIds)=>{
+            set({onlineUsers:userIds})
+        })
+    },
+
+    disconnectSocket:() => {
+        get().socket.disconnect()
     }
 }));
