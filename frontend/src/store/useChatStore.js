@@ -49,6 +49,7 @@ export const useChatStore = create((set,get)=>({
     set({ isMessagesLoading: true });
     try {
       const res = await axiosInstance.get(`/messages/${userId}`);
+      console.log(res.data,'this is message')
       set({ messages: res.data });
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
@@ -83,13 +84,17 @@ export const useChatStore = create((set,get)=>({
     }
   },
 
-  subscribeToMessages : () =>{
+  subscribeToMessages: () =>{
     const {selectedUser, isSoundEnabled} = get();
     if(!selectedUser) return;
     const socket = useAuthStore.getState().socket;
-
+    
     socket.on("newMessage", (newMessage)=>{
+        const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
+      if (!isMessageSentFromSelectedUser) return;
         const currentMessages = get().messages
+        console.log("current messages",currentMessages)
+        console.log(newMessage)
         set({messages: [...currentMessages, newMessage]});
 
         if(isSoundEnabled){
@@ -99,7 +104,7 @@ export const useChatStore = create((set,get)=>({
     })
   },
 
-  unsubsribeFromMessages: () =>{
+  unsubscribeFromMessages: () =>{
     const socket = useAuthStore.getState().socket;
     socket.off("newMessage");
 

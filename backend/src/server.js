@@ -7,8 +7,9 @@ import messageRoutes from "./routes/message.route.js"
 import { connectDB } from "./lib/db.js";
 import {ENV} from "./lib/env.js"
 import cors from 'cors'
+import { app, server } from "./lib/socket.js";
 
-const app = express();
+
 
 dotenv.config();
 const PORT = process.env.PORT||3000
@@ -24,11 +25,11 @@ app.use("/api/messages", messageRoutes)
 if(process.env.NODE_ENV ==="production"){
    
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
-    app.get("*",(req,res)=>{
+    app.get("*",(_,res)=>{
         res.sendFile(path.join(__dirname,"../frontend","dist","index.html"));
     })
 }
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
      console.log("Server is running on port: "+PORT)
      connectDB()
 })
