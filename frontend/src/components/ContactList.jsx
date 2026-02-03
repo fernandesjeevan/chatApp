@@ -22,7 +22,7 @@
         >
         <div className='flex items-center gap-3'>
             {/* todo filx this online status with websocket */}
-            <div className="avatar online">
+            <div className={`avatar ${isOnline ? "online" : "offline"}`}>
             <div className="size-12 rounded-full">
                 <img src={contact.profilePic || "/avatar.png"} alt = {contact.fullName}/>
             </div>
