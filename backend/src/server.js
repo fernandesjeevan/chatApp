@@ -14,7 +14,7 @@ dotenv.config();
 const PORT = process.env.PORT||3000
 const __dirname= path.resolve()
 
-app.use(express.json());
+app.use(express.json({limit:"15mb"}));
 app.use(cors({origin:ENV.CLIENT_URL, credentials:true}))
 app.use(cookieParser())
 console.log("hey hey")
