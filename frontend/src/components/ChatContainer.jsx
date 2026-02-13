@@ -15,8 +15,6 @@ function ChatContainer() {
 
   useEffect(() => {
     getMessagesByUserId(selectedUser._id);
-    
-    connectSocket();
     subscribeToMessages();
 
     // clean up
